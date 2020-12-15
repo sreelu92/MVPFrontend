@@ -1,18 +1,32 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div id="container">
+    <header-page></header-page>
+    <create-note></create-note>
+    <create-task></create-task>
+    <footer-page></footer-page>
+
+   
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import HeaderPage from "../components/Header.vue"
+import CreateNote from "../components/CreateNote.vue"
+import CreateTask from "../components/CreateTask.vue"
+import FooterPage from "../components/Footer.vue"
 export default {
-  name: "Home",
+  name: "home-page",
   components: {
-    HelloWorld
-  }
+    HeaderPage,
+    CreateNote,
+    CreateTask,
+    FooterPage
+  },
+ 
 };
 </script>
+
+<style lang="scss" scoped>
+
+
+</style>
