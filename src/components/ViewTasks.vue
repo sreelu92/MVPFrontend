@@ -1,43 +1,69 @@
 <template>
-    <div id="container">
-        <div id="btnStyling">
-            <button class="buttonStyling"  @click="getmyTasks">View all tasks</button>
-            <button class="buttonStyling"  @click="ordermyTasks">Order by date</button>
-            <button class="buttonStyling"  @click="todaysTasks">Today's task</button>
+  <div id="container">
+    <div id="btnStyling">
+      <h5
+        class="buttonStyling"
+        @click="
+          getmyTasks();
+          show = false;
+        "
+      >
+        All tasks
+      </h5>
+      <h5
+        class="buttonStyling"
+        @click="
+          ordermyTasks();
+          show = true;
+        "
+      >
+        Order by date
+      </h5>
 
-
-            
-        </div>
-        
-        <div id="taskStyling"  v-for="task in tasks" :key="task.taskId" >
-            <h3>{{ task.task }}</h3><br>
-            <h3>{{"on"+" "+  task.targetDate}}</h3>
-            <div id="editdiv">
-                <img id="deleteimg" @click="deleteTask(task.taskId)" src="https://cdn.onlinewebfonts.com/svg/img_416864.png" alt="image of trash can">
-                <edit-task :taskid="task.taskId" @contentChanged="updateList"></edit-task>
-            </div>
-           
-        </div>
-
+      <h5 class="buttonStyling" @click="todaysTasks();click=false">Today's task</h5>
     </div>
+    <div id="tasklayout">
+      <div id="taskStyling" v-for="task in tasks" :key="task.taskId">
+        <h3 class="taskStyleh3">{{ "Task: " + "" + task.task }}</h3>
+        <br />
+        <h3 class="taskStyleh3">
+          {{ "Target date: " + "  " + task.targetDate }}
+        </h3>
+        <div id="editdiv">
+          <img
+            id="deleteimg"
+            @click="deleteTask(task.taskId)"
+            src="https://cdn.onlinewebfonts.com/svg/img_416864.png"
+            alt="image of trash can"
+          />
+          <edit-task
+            :taskid="task.taskId"
+            @contentChanged="updateList"
+          ></edit-task>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
-import cookies from 'vue-cookies'
-import EditTask from './EditTask.vue'
+import axios from "axios";
+import cookies from "vue-cookies";
+import EditTask from "./EditTask.vue";
 export default {
-  name:"view-task",
+  name: "view-task",
   components: {
     EditTask,
   },
- 
+
   data() {
-      return {
-        userid:cookies.get("userId"),
-        token:cookies.get("loginToken"),
-        tasks:[]
-      };
+    return {
+      userid: cookies.get("userId"),
+      token: cookies.get("loginToken"),
+      tasks: [],
+      show: true,
+      click: true,
+    };
   },
   mounted() {
     this.getmyTasks();
@@ -46,76 +72,75 @@ export default {
     }
   },
   methods: {
-    getmyTasks:function() {
-      
+    getmyTasks: function () {
       axios
         .request({
-          url: "http://127.0.0.1:5000/api/tasks",
+          url: "https://noteapp.ml/api/tasks",
 
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
           params: {
-            userId: this.userid
-          }
+            userId: this.userid,
+          },
         })
-        .then(response => {
-          console.log(response)
-          this.tasks= response.data; 
+        .then((response) => {
+          console.log(response);
+          this.tasks = response.data;
+          this.click=true;
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     },
-    ordermyTasks:function(){
+    ordermyTasks: function () {
       axios
         .request({
-          url: "http://127.0.0.1:5000/api/ordertasks",
+          url: "https://noteapp.ml/api/ordertasks",
 
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
           params: {
-            userId: this.userid
-          }
+            userId: this.userid,
+          },
         })
-        .then(response => {
-          console.log(response)
-          this.tasks= response.data;
+        .then((response) => {
+          console.log(response);
+          this.tasks = response.data;
+          this.click=true;
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
-
     },
-    todaysTasks:function(){
-       axios
+    todaysTasks: function () {
+      axios
         .request({
-          url: "http://127.0.0.1:5000/api/daytasks",
+          url: "https://noteapp.ml/api/daytasks",
 
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
           params: {
-            userId: this.userid
-          }
+            userId: this.userid,
+          },
         })
-        .then(response => {
-          console.log(response)
-          this.tasks= response.data;
+        .then((response) => {
+          console.log(response);
+          this.tasks = response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
-
     },
-     deleteTask(taskId) {
+    deleteTask(taskId) {
       axios
         .request({
-          url: "http://127.0.0.1:5000/api/tasks",
+          url: "https://noteapp.ml/api/tasks",
 
           method: "DELETE",
           headers: {
@@ -124,76 +149,133 @@ export default {
 
           data: {
             loginToken: this.token,
-            taskId:taskId
-          }
+            taskId: taskId,
+          },
         })
-        .then(response => {
-          console.log(response)
-          this.getmyTasks();
+        .then((response) => {
+          console.log(response);
+          this.updateList();
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
-     },
-     updateList:function(){
+    },
+    updateList: function () {
+      if(this.show==true &&this.click==false){
+        this.todaysTasks();
+      }
+      if(this.show==false&&this.click==false){
+        this.todaysTasks();
+      }
+      if (this.show==true&&this.click==true) {
+        this.ordermyTasks();
+      } else {
         this.getmyTasks();
-
-     }
-    
-  }
+      }
+    },
+  },
 };
-                
-            
-        
-        
-    
-    
 </script>
 
 <style lang="scss" scoped>
-#container{
+@import url("https://fonts.googleapis.com/css2?family=Merienda:wght@700&display=swap");
+
+#container {
+  display: grid;
+  row-gap: 3vh;
+  justify-items: center;
+  align-items: center;
+  #btnStyling {
+    margin-top: 29vh;
     display: grid;
-    row-gap: 3vh;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 6vw;
     justify-items: center;
     align-items: center;
-    #btnStyling{
-        margin-top:8vh;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        column-gap: 6vw;
-        .buttonStyling{
-            background-color: orange;
-            color: white;
-            border-radius: 5px;
-            height: 5vh;
-
-        }
+    .buttonStyling {
+      color: orange;
+      border-radius: 5px;
+      height: 5vh;
+      font-family: "Merienda", cursive;
     }
-    #taskStyling{
-        
-    border:1px solid grey;
-    width:80%;
-    border-radius:5px;
+  }
+  #tasklayout{
+    display: grid;
+    justify-items: center;
+    align-items: center;
+     #taskStyling {
+    border: 1px solid grey;
+    width: 80%;
+    border-radius: 5px;
     text-align: center;
-    #editdiv{
-        display: grid;
-        grid-template-columns: 1fr 1fr ;
-        margin-top: 4vh;
-        #deleteimg{
-            width:20%;
-            margin-left: 5vw;
+    margin-top: 4vh;
+    border-color: orange;
+    #editdiv {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-top: 4vh;
+      #deleteimg {
+        width: 15%;
+        margin-left: 5vw;
+      }
+    }
+  }
+
+  }
+ 
+  @media only screen and(min-width:600px) {
+    #btnStyling {
+      font-size: 2.2em;
+    }
+    #taskStyling {
+      height: 28vh;
+      border-radius: 10px;
+      .taskStyleh3 {
+        font-size: 2em;
+      }
+      #editdiv {
+        margin-top: 6vh;
+        #deleteimg {
+          width: 12%;
+        }
+      }
+    }
+  }
+  @media only screen and(min-width:1020px) {
+    #btnStyling{
+      .buttonStyling{
+        transition: all 0.25s ease-in-out;
+        &:hover{
+          color: coral;
+        }
+      }
+
+    }
+    
+    #tasklayout {
+      display: grid;
+      justify-items: center;
+      align-items: center;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      
+      #taskStyling {
+        width: 60%;
+        height: 30vh;
+
+        .taskStyleh3{
+          font-size: x-large;
+        }
+        #editdiv{
+          margin-top: 5vh;
+
+          #deleteimg{
+            width: 12%;
+          }
 
         }
-
+      }
+     
     }
-    
-    }
-
+  }
 }
-
-
-    
-
-
-
 </style>

@@ -8,13 +8,18 @@
       <h3>{{ "Username:" + " " + username }}</h3>
       <h3>{{ "Email:" + " " + email }}</h3>
     </div>
-    <div id="thirddiv">
-      <h2>Edit My Profile</h2>
+    <div id="moddiv">
+      <h3 @click="show">Edit My Profile</h3>
+      <h3 @click="show">Delete My Profile</h3>
+
+
+
+    </div>
+    <div id="thirddiv" v-if="isClicked">
       <update-page></update-page>
 
     </div>
-    <div  id="fourthdiv">
-      <h2>Delete My Profile</h2>
+    <div  id="fourthdiv" v-if="!isClicked">
       <delete-page></delete-page>
      
 
@@ -47,6 +52,7 @@ export default {
       token: cookies.get("loginToken"),
       username: "",
       email: "",
+      isClicked:true
     };
   },
   mounted() {
@@ -59,7 +65,7 @@ export default {
     getInfo: function () {
       axios
         .request({
-          url: "http://127.0.0.1:5000/api/users",
+          url: "https://noteapp.ml/api/users",
 
           method: "GET",
           headers: {
@@ -78,19 +84,26 @@ export default {
           console.log(error);
         });
     },
+    show:function(){
+      this.isClicked=!this.isClicked;
+    }
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Merienda:wght@700&display=swap');
+
 #container {
-  min-height: 10vh;
+  min-height: 20vh;
+  border: 2px solid black;
+  border-radius: 30px;
   
   #firstprodiv {
-    margin-top: 15vh;
+    margin-top: 25vh;
     text-align: center;
     #profileimage{
-      width:18%;
+      width:23%;
     }
   }
   #secondprodiv {
@@ -101,6 +114,16 @@ export default {
     row-gap: 2vh;
     
   }
+  #moddiv{
+    display: grid;
+    color: orange;
+    margin-top: 9vh;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+    font-family: 'Merienda', cursive;
+
+  }
   #thirddiv{
     display: grid;
     margin-top: 13vh;
@@ -109,11 +132,43 @@ export default {
   }
   #fourthdiv{
     display: grid;
-    margin-top: 10vh;
+    margin-top: 4vh;
     justify-items: center;
     align-items: center;
     min-height: 30vh;
   }
+  @media only screen and(min-width:600px) {
+    #secondprodiv{
+      font-size: 2em;
+    }
+    #moddiv{
+      font-size: xx-large;
+    }
+  }
+  @media only screen and(min-width:1020px) {
+    border-radius: 0px;
+    #firstprodiv{
+      #profileimage{
+        width: 7%;
+      }
+    }
+    #secondprodiv{
+      font-size: x-large;
+    }
+    #moddiv{
+      font-size: x-large;
+        transition: all 0.25s ease-in-out;
+        &:hover{
+          color: coral;
+        }
+      
+    }
+    #fourthdiv{
+      margin-top: 13vh;
+    }
+  }
+
+
   
 }
 </style>

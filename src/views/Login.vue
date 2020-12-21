@@ -2,7 +2,6 @@
   <div id="container">
     <router-link class="routerStyling" to="/"> Go Back</router-link>
 
-    <h3 id="h3Styling">Login here</h3>
     <div id="formStyling">
       <p class="ptagStyling">Email</p>
       <input class="stylingInput" type="text" id="email-input" v-model="email" placeholder="Enter your email "/>
@@ -25,12 +24,13 @@ export default {
       loginStatus: ""
     };
   },
+  
   methods: {
     loginUser: function() {
       this.loginStatus = "Loading";
       axios
         .request({
-          url: "http://127.0.0.1:5000/api/login",
+          url: "https://noteapp.ml/api/login",
 
           method: "POST",
           headers: {
@@ -64,14 +64,24 @@ export default {
 
 <style lang="scss" scoped>
 #container {
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&display=swap');
+
   display: grid;
   justify-items: center;
   align-items: center;
-  row-gap: 6vh;
-  margin-top: 10vh;
+  row-gap: 4vh;
+  background-image: url(https://wallpapercave.com/wp/wp6850797.jpg);
+  border-radius: 25px;
+  border:2px solid black;
+  height:99vh;
   .routerStyling{
     text-decoration: none;
     font-size: large;
+    color: orange;
+    margin-right: 70vw;
+    font-family: 'Nanum Myeongjo', serif;
+
+    margin-bottom: 10vh;
   }
   #h3Styling{
     display: none;
@@ -81,18 +91,30 @@ export default {
     row-gap: 4vh;
     text-align: center;
     color:orange;
-    font-family: sans-serif;
+      font-family: 'Nanum Myeongjo', serif;
+
     .ptagStyling {
       font-size: large;
       font-weight: bold;
+    }
+    .stylingInput{
+      border-radius: 20px;
+      height: 30px;
+      width: 200px;
+      text-align: center;
     }
   }
   #loginStyling {
     color: orange;
     text-align: center;
+    font-family: 'Nanum Myeongjo', serif;
+
+  }
+  #loginh3Styling{
+    color: orange;
   }
   @media only screen and(min-width:600px) {
-    margin-top: 8vh;
+    background-image: url(https://wallpapercave.com/wp/wp4590354.jpg);
     #h3Styling{
       display:block;
       font-size:xx-large;
@@ -101,36 +123,52 @@ export default {
       font-size: xx-large;
     }
     #formStyling {
-      padding:15%;
-      background:  rgb(29, 161, 242);
+      margin-top: -15vh;
+      
       .ptagStyling{
-        font-size: xx-large;
+        font-size: 2em;
       }
       .stylingInput{
-        width:240px;
-        height: 50px;
+        width:280px;
+        height: 55px;
         font-size:x-large;
       }
     }
     #loginStyling{
       padding: 15px;
-      font-size: xx-large;
+      font-size: 2.5em;
     }
     #loginh3Styling{
-      font-size: x-large;
+      font-size: 2em;
     }
 
   }
   @media only screen and(min-width:1020px) {
+    background-image: url(https://wallpapercave.com/wp/wp6850797.jpg);
     row-gap: 3vh;
+    border-radius: 0;
+    .routerStyling{
+       font-size: 1em;
+       margin-left: -14vw;
+    }
     #h3Styling{ 
       font-size:3em;
     }
     #formStyling {
       padding:6%;
       .stylingInput{
-        font-size:x-large;
+        font-size: 1em;
+        font-size: small;
+        width:200px;
+        height: 40px;
       }
+      .ptagStyling{
+        font-size: 1.5em;
+      }
+    }
+    #loginStyling{
+      font-size: 2em;
+      margin-top: -40px;
     }
 
 

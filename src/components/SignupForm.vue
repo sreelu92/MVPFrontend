@@ -1,30 +1,30 @@
 <template>
-  <div id="container">
+  <div id="maincontainer">
     <div id="formStyling">
       <p class="ptagStyling">Email</p>
       <input
         class="inputStyling"
         type="text"
         id="email-input"
-        v-model="email"
+        v-model="email" placeholder="Enter your email"
       />
       <p class="ptagStyling">Username</p>
       <input
         class="inputStyling"
         type="text"
         id="username-input"
-        v-model="username"
+        v-model="username" placeholder="Enter your username"
       />
       <p class="ptagStyling">Password</p>
       <input
         class="inputStyling"
         type="password"
         id="pawwsord-input"
-        v-model="password"
+        v-model="password" placeholder="Enter your password"
       />
     </div>
     <h3 @click="signupUser" id="signupStyling">Sign Up</h3>
-    <h2>{{ status }}</h2>
+    <h2 id="signh2styling">{{ status }}</h2>
   </div>
 </template>
 
@@ -45,7 +45,7 @@ export default {
     signupUser: function () {
       axios
         .request({
-          url: "http://127.0.0.1:5000/api/users",
+          url: "https://noteapp.ml/api/users",
 
           method: "POST",
           headers: {
@@ -70,7 +70,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          this.status = "User Already Exit";
+          this.status = "Something went wrong. Try again";
         });
     },
   },
@@ -78,8 +78,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#container {
-  margin-top: 5vh;
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&display=swap');
+#maincontainer {
+  margin-top: 15vh;
   display: grid;
   font-size: large;
   font-weight: bold;
@@ -89,44 +90,63 @@ export default {
   .inputStyling {
     height: 30px;
     width: 200px;
+    border-radius:20px;
+    text-align: center;
   }
   #formStyling {
     display: grid;
     text-align: center;
     row-gap: 3vh;
     color: orange;
-    font-family: sans-serif;
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: large;
+
+
+
   }
   #signupStyling {
     color: orange;
     text-align: center;
-    font-family: sans-serif;
+    font-family: 'Nanum Myeongjo', serif;
+  }
+  
+  #signh2styling{
+    color:orange;
+    font-size: large;
   }
   @media only screen and(min-width:600px) {
-    #formStyling {
-      padding: 15%;
-      background-color: rgb(29, 161, 242);
-    }
+    
     .inputStyling {
-      height: 35px;
+      height: 50px;
       width: 300px;
       font-size: x-large;
     }
     .ptagStyling {
-      font-size: xx-large;
+      font-size: 2em;
+      font-weight: bolder;
+
     }
     #signupStyling {
       border-radius: 20px;
       width: 150px;
-      font-size: x-large;
+      font-size: 2em;
       padding: 20px;
     }
   }
+  
+  #signh2styling{
+    font-size: 2em;
+  }
   @media only screen and(min-width:1020px) {
-    #formStyling {
-      padding: 50px;
-      #bio-input {
-        font-size: larger;
+    #formStyling{
+      margin-top: -3vh;
+      .ptagStyling{
+        font-size:1.5em;
+      }
+      .inputStyling{
+        font-size: small;
+        width:200px;
+        height: 40px;
       }
     }
   }

@@ -1,15 +1,21 @@
 <template>
   <div>
-    <input type="password" id="passwordInput" v-model="password" />
+    <h3 id="delh3">Enter your password</h3>
+    <input
+      type="password"
+      id="passwordInput"
+      v-model="password"
+      placeholder="Enter your password"
+    />
     <h3 id="deleteh3" @click="deleteMessage">Delete</h3>
     <div v-if="isClicked" id="deleteDiv">
-      <h3>Are you sure?</h3>
+      <h3 id="confirmh3">Are you sure?</h3>
       <div id="deletedivStylings">
-        <button @click="cancelMessage">Cancel</button>
-        <button @click="deleteProfile">Ok</button>
+        <button class="delbtnstyling" @click="cancelMessage">Cancel</button>
+        <button class="delbtnstyling" @click="deleteProfile">Ok</button>
       </div>
     </div>
-    <h3>{{ status }}</h3>
+    <h3 id="statush3">{{ status }}</h3>
   </div>
 </template>
 
@@ -23,14 +29,14 @@ export default {
       token: cookies.get("loginToken"),
       password: "",
       isClicked: false,
-      status: ""
+      status: "",
     };
   },
   methods: {
-    deleteProfile: function() {
+    deleteProfile: function () {
       axios
         .request({
-          url: "http://127.0.0.1:5000/api/users",
+          url: "https://noteapp.ml/api/users",
 
           method: "DELETE",
           headers: {
@@ -38,54 +44,132 @@ export default {
           },
           data: {
             loginToken: this.token,
-            password: this.password
-          }
+            password: this.password,
+          },
         })
-        .then(response => {
-          console.log(response)
+        .then((response) => {
+          console.log(response);
           this.$router.push({ name: "welcome-page" });
           cookies.remove("userId");
           cookies.remove("username");
           cookies.remove("loginToken");
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
-          this.status = "Password incorrect";
+          this.status = "Something went wrong!. Try again";
         });
     },
-    deleteMessage: function() {
+    deleteMessage: function () {
       this.isClicked = true;
     },
-    cancelMessage: function() {
+    cancelMessage: function () {
       this.isClicked = false;
-    }
-  }
+      this.status = "";
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+@import url("https://fonts.googleapis.com/css2?family=Merienda:wght@700&display=swap");
 
-  #deleteh3 {
-    font-size: x-large;
-    color:orange;
+#delh3 {
+  color: orange;
+  text-align: center;
+  font-family: "Merienda", cursive;
+}
+#passwordInput {
+  margin-top: 6vh;
+  border-radius: 15px;
+  height: 5vh;
+  text-align: center;
+  box-shadow:5px 2px grey;
+
+}
+
+#deleteh3 {
+  font-size: x-large;
+  color: orange;
+  text-align: center;
+  font-family: "Merienda", cursive;
+  margin-top: 4vh;
+}
+#deleteDiv {
+  margin-top: 3vh;
+  #confirmh3 {
     text-align: center;
   }
-  #deleteDiv {
-    #deletedivStylings {
-      display: grid;
-    }
-  
-  @media only screen and(min-width:600px) {
-    #passwordInput {
-      width: 90%;
-      height: 50px;
-      font-size: x-large;
-    }
-    #deletebtnStyling {
-      height: 50px;
-      width: 200px;
-      font-size: x-large;
+  #deletedivStylings {
+    display: grid;
+    margin-top: 2vh;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+    .delbtnstyling {
+      border-radius: 10px;
+      height: 5vh;
+      width: 60%;
+      background-color: orange;
+      color: white;
     }
   }
 }
+#statush3 {
+  margin-top: 3vh;
+  margin-left: 4vw;
+}
+
+@media only screen and(min-width:600px) {
+  #delh3 {
+    font-size: xx-large;
+  }
+  #deleteh3 {
+    font-size: 2.5em;
+  }
+  #passwordInput {
+    width: 90%;
+    height: 50px;
+    font-size: x-large;
+  }
+  #deletebtnStyling {
+    height: 50px;
+    width: 200px;
+    font-size: x-large;
+  }
+  #confirmh3 {
+    font-size: 2.5em;
+  }
+  #deletedivStylings {
+    .delbtnstyling {
+      font-size: x-large;
+    }
+  }
+  #statush3 {
+    font-size: xx-large;
+  }
+}
+@media only screen and(min-width:1020px) {
+  #delh3{
+    font-size: x-large;
+  }
+  #passwordInput{
+    font-size:large;
+  }
+  #deleteh3{
+    font-size: xx-large;
+  }
+  #deleteDiv{
+    #confirmh3{
+      font-size: x-large;
+    }
+    #deletedivStylings{
+      .delbtnstyling{
+        font-size: large;
+      }
+    }
+
+  }
+
+}
+
 </style>

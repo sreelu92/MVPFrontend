@@ -1,6 +1,6 @@
 <template>
     <div id="container">
-        <router-link class="routerStyling" to="/"> Go Back</router-link>
+        <router-link id="routerStyling" to="/"> Go Back</router-link>
 
         <signup-form></signup-form>
 
@@ -19,17 +19,37 @@ import SignupForm from "../components/SignupForm.vue"
 </script>
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&display=swap');
+
 #container{
-    .routerStyling{
+  border-radius: 25px;
+  border:2px solid black;
+  height:99vh;
+  background-image: url(https://wallpapercave.com/wp/wp6850797.jpg);
+
+    #routerStyling{
         text-decoration: none;
-        color:rgb(29, 161, 242);
+        color:orange;
         font-size: large;
+        font-family: 'Nanum Myeongjo', serif;
+
+        margin-left: 5vw;
     }
     @media only screen and(min-width:600px) {
-        .routerStyling{
-            font-size: xx-large;
+        background-image: url(https://wallpapercave.com/wp/wp4590354.jpg);
+        #routerStyling{
+            font-size: 2em;
+
         }
     }
+    @media only screen and(min-width:1020px) {
+        background-image: url(https://wallpapercave.com/wp/wp6850797.jpg);
+        border-radius: 0;
+        #routerStyling{
+            font-size: x-large;
+        }
+    }
+
 
 }
 
